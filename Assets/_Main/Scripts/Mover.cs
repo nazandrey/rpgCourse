@@ -1,13 +1,17 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-[RequireComponent(typeof(NavMeshAgent))]
-public class Mover : MonoBehaviour
+namespace RpgCourse
 {
-    [SerializeField] private Transform target;
-
-    private void Start()
+    [RequireComponent(typeof(NavMeshAgent))]
+    public class Mover : MonoBehaviour
     {
-        GetComponent<NavMeshAgent>().SetDestination(target.position);
+        [SerializeField] private Transform target;
+
+        private void Start()
+        {
+            GetComponent<NavMeshAgent>().SetDestination(target.position);
+            ;
+        }
     }
 }
