@@ -34,7 +34,10 @@ namespace RpgCourse
                     _navMeshAgent.SetDestination(hit.point);
                 }
             }
-            _animator.SetFloat("Speed", _navMeshAgent.velocity.z);
+
+            var globalVelocity = _navMeshAgent.velocity;
+            var localVelocity = transform.InverseTransformVector(globalVelocity);
+            _animator.SetFloat("Speed", localVelocity.z);
         }
     }
 }
