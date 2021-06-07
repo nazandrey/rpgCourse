@@ -14,7 +14,7 @@ namespace RpgCourse
             _offset = transform.position - objectToFollow.position;
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             transform.position = objectToFollow.position + _offset;
         }
