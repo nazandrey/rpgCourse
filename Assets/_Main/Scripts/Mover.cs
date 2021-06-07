@@ -10,11 +10,13 @@ namespace RpgCourse
         
         private NavMeshAgent _navMeshAgent;
         private Camera _mainCamera;
+        private Animator _animator;
 
         private void Awake()
         {
             _mainCamera = Camera.main;
             _navMeshAgent = GetComponent<NavMeshAgent>();
+            _animator = GetComponent<Animator>();
         }
 
         private void Start()
@@ -32,6 +34,7 @@ namespace RpgCourse
                     _navMeshAgent.SetDestination(hit.point);
                 }
             }
+            _animator.SetFloat("Speed", _navMeshAgent.velocity.z);
         }
     }
 }
