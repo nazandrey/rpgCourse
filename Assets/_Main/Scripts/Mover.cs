@@ -25,7 +25,13 @@ namespace RpgCourse
 
         public void SetDestination(Vector3 targetPosition)
         {
+            SetDestinationAndStopDistance(targetPosition);
+        }
+
+        public void SetDestinationAndStopDistance(Vector3 targetPosition, float stoppingDistance = 0)
+        {
             _navMeshAgent.SetDestination(targetPosition);
+            _navMeshAgent.stoppingDistance = stoppingDistance;
         }
     }
 }
