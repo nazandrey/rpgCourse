@@ -143,6 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionableStoppingDistance: 3
+  attackCooldown: 1
 --- !u!1 &3785529770299802862
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,19 +19,40 @@ namespace RpgCourse
     
         private void Update()
         {
-            var isMouseButtonDown = Input.GetMouseButtonDown(0);
-            if (isMouseButtonDown || Input.GetMouseButton(0))
+            if (TryAttack()) return;
+            Move();
+        }
+
+        private void Move()
+        {
+            if (!(Input.GetMouseButtonDown(0) || (Input.GetMouseButton(0) && !_fighter.HasTarget))) return;
+            if (Physics.Raycast(GetMouseRay(), out var hit, LayerMask.GetMask("Ground")))
             {
-                var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out var hit))
-                {
-                    var attackable = hit.collider.GetComponent<IAttackable>();
-                    if (isMouseButtonDown && attackable != null)
-                        _fighter.SetTarget(attackable);
-                    else
-                        _mover.SetDestination(hit.point);
-                }
+                _fighter.ResetTarget();
+                _mover.SetDestination(hit.point);
             }
+        }
+
+        private Ray GetMouseRay()
+        {
+            return _mainCamera.ScreenPointToRay(Input.mousePosition);
+        }
+
+        private bool TryAttack()
+        {
+            if (!Input.GetMouseButtonDown(0)) 
+                return false;
+            if (!Physics.Raycast(GetMouseRay(), out var hit, LayerMask.GetMask("Attackable"))) 
+                return false;
+            
+            var attackable = hit.collider.GetComponent<IAttackable>();
+            if (attackable != null)
+            {
+                _fighter.SetTarget(attackable);
+                return true;
+            }
+
+            return false;
         }
     }
 }

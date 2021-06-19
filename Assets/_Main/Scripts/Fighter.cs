@@ -12,6 +12,8 @@ namespace RpgCourse
         private IAttackable _currTarget;
         private float _timeBeforeAttackAvailable;
         
+        public bool HasTarget => _currTarget != null;
+        
         private void Awake()
         {
             _mover = GetComponent<Mover>();
@@ -22,7 +24,7 @@ namespace RpgCourse
             if (_timeBeforeAttackAvailable > 0)
                 _timeBeforeAttackAvailable -= Time.deltaTime;
             
-            if (_currTarget == null) return;
+            if (!HasTarget) return;
             if (_mover.IsMoving) return;
 
             if (_mover.HasReachedDestination)
@@ -33,9 +35,9 @@ namespace RpgCourse
                     _timeBeforeAttackAvailable = attackCooldown;
                 }
             }
-            else 
+            else
             {
-                _currTarget = null;
+                ResetTarget();
                 Debug.LogWarning("Cannot reach target");
             }
         }
@@ -44,6 +46,11 @@ namespace RpgCourse
         {
             _currTarget = attackable;
             _mover.SetDestinationAndStopDistance(attackable.AttackPoint, actionableStoppingDistance);
+        }
+        
+        public void ResetTarget()
+        {
+            _currTarget = null;
         }
     }
 }
