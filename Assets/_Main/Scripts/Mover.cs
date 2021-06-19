@@ -9,6 +9,10 @@ namespace RpgCourse
     {
         private NavMeshAgent _navMeshAgent;
         private Animator _animator;
+        // http://answers.unity.com/answers/746157/view.html
+        public bool IsMoving => _navMeshAgent.hasPath && _navMeshAgent.remainingDistance >= _navMeshAgent.stoppingDistance;
+        public bool HasReachedDestination => !_navMeshAgent.pathPending && !IsMoving 
+            && _navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete;
 
         private void Awake()
         {

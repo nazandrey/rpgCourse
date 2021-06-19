@@ -3,31 +3,33 @@
 namespace RpgCourse
 {
     [RequireComponent(typeof(Mover))]
-    public class PlayerDestinationChanger : MonoBehaviour
+    [RequireComponent(typeof(Fighter))]
+    public class PlayerInput : MonoBehaviour
     {
-        [SerializeField] private float actionableStoppingDistance = 3f;
-        
         private Camera _mainCamera;
         private Mover _mover;
+        private Fighter _fighter;
 
         private void Awake()
         {
             _mover = GetComponent<Mover>();
+            _fighter = GetComponent<Fighter>();
             _mainCamera = Camera.main;
         }
     
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0) || Input.GetMouseButton(0))
+            var isMouseButtonDown = Input.GetMouseButtonDown(0);
+            if (isMouseButtonDown || Input.GetMouseButton(0))
             {
                 var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out var hit))
                 {
-                    var actionable = hit.collider.GetComponent<IActionable>();
-                    if (actionable == null)
-                        _mover.SetDestination(hit.point);
+                    var attackable = hit.collider.GetComponent<IAttackable>();
+                    if (isMouseButtonDown && attackable != null)
+                        _fighter.SetTarget(attackable);
                     else
-                        _mover.SetDestinationAndStopDistance(hit.point, actionableStoppingDistance);
+                        _mover.SetDestination(hit.point);
                 }
             }
         }

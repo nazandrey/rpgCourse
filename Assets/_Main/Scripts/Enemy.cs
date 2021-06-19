@@ -2,8 +2,13 @@
 
 namespace RpgCourse
 {
-    public class Enemy : MonoBehaviour, IActionable
+    public class Enemy : MonoBehaviour, IAttackable
     {
-        
+        public Vector3 AttackPoint => transform.position;
+
+        public void TakeAttack()
+        {
+            Debug.Log("Took Attack");
+        }
     }
 }
